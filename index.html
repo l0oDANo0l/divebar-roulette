@@ -1,0 +1,338 @@
+<html>
+  <head>
+    <title>Portland Dive Bar Roulette</title>
+    <link rel="icon" href="./favico.svg" type="image/svg+xml">
+    <script src="/elastic-apm-rum.umd.min.js" crossorigin></script>
+    <script>
+      window.apm = elasticApm.init({
+        serviceName: 'pdx-dive-bar-roulette',
+        serverUrl: 'https://58cdf3b28d6b425a85caf41ae2305ba4.apm.us-central1.gcp.cloud.es.io:443',
+      })
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+
+body {
+  font-family: "Courier New";
+  font-weight: 700;
+  text-align: center;
+  color:white;
+  background: black;
+  min-width: 320px;
+}
+
+a {
+  color:magenta
+}
+
+button {
+  padding:1em;
+  margin: 1em;
+  font-weight: bold;
+}
+
+body.blink #slot {
+  visibility: hidden;
+}
+
+label input{
+  margin-right: .5em
+}
+
+label {
+  padding: .5em;
+  word-break: keep-all;
+  line-break: strict;
+  display: inline-flex;
+}
+
+body.spinning button[name='spin_it'] {
+  visibility: hidden;
+}
+
+#main {
+  min-height: 70vh;
+}
+
+    </style>
+  </head>
+  <body>
+    <div id="main">
+  <h1>
+    Portland Dive Bar Roulette
+  </h1>
+
+  <p class="blurb">
+     Select your hoods. Spin it. Get out there and support your dives!
+  </p>
+  <p class="hoods">
+    <label for="cbNorth"><input id="cbNorth" type="checkbox" checked    />North</label>
+    <label for="cbNortheast"><input id="cbNortheast" type="checkbox" checked/>Northeast</label>
+    <label for="cbNorthwest"><input id="cbNorthwest" type="checkbox" checked />Northwest</label> <br/>
+    <label for="cbSoutheast"><input id="cbSoutheast" type="checkbox" checked />Southeast</label>
+    <label for="cbSouthwest"><input id="cbSouthwest" type="checkbox" checked />Southwest</label>
+  </p>
+  <button name="spin_it">Spin It!</button>
+  <div id="slot"></div>
+  </div>
+  <div class="footer">
+  <p class="outro">
+    This site is ad free. I do appreciate most forms of gratitude, but <a href="https://account.venmo.com/u/dan-schomburg">money</a> is the easiest.
+    <br/></br>
+    I also accept <a href="https://account.venmo.com/u/dan-schomburg">bribes</a>, so if your bar isn't on the list or gets removed... send me a donation ;p.
+  </p>
+</div>
+<script type="text/javascript">
+const allBars = [{
+    "name": "The Alibi Tiki Lounge",
+    "neighborhood": "North"
+  },
+  {
+    "name": "George’s Corner Tavern",
+    "neighborhood": "North"
+  },
+  {
+    "name": "Mock Crest Tavern",
+    "neighborhood": "North"
+  },
+  {
+    "name": "The Perch Bar & Grill",
+    "neighborhood": "North"
+  },
+  {
+    "name": "Slim’s PDX",
+    "neighborhood": "North"
+  },
+  {
+    "name": "Twilight Room",
+    "neighborhood": "North"
+  },
+  {
+    "name": "The World Famous Kenton Club",
+    "neighborhood": "North"
+  },
+  {
+    "name": "Your Inn Tavern",
+    "neighborhood": "North"
+  },
+  {
+    "name": "Ace Tavern",
+    "neighborhood": "Northeast"
+  },
+  {
+    "name": "Billy Ray’s Dive",
+    "neighborhood": "Northeast"
+  },
+  {
+    "name": "Sandy Hut",
+    "neighborhood": "Northeast"
+  },
+  {
+    "name": "The Sextant Bar & Galley",
+    "neighborhood": "Northeast"
+  },
+  {
+    "name": "The Wilshire Tavern",
+    "neighborhood": "Northeast"
+  },
+  {
+    "name": "Joe’s Cellar",
+    "neighborhood": "Northwest"
+  },
+  {
+    "name": "Lighthouse Restaurant & Bar",
+    "neighborhood": "Northwest"
+  },
+  {
+    "name": "Mary’s Club",
+    "neighborhood": "Northwest"
+  },
+  {
+    "name": "Yur’s Bar & Grill",
+    "neighborhood": "Northwest"
+  },
+  {
+    "name": "Low Brow Lounge",
+    "neighborhood": "Northwest"
+  },	 
+  {
+    "name": "The Checkered Flag Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Claudia’s Sports Pub and Grill",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Foster Gardens",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Gil’s Speakeasy Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Holman’s Bar & Grill",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Kay’s Bar",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Lutz Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Mt. Scott Pub",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Old Gilbert Road Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Reel M Inn",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Rumpus Room",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Ship Ahoy Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Space Room Lounge",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Starday Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Yukon Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Cheerful Bullpen",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Cheerful Tortoise",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Goose Hollow Inn",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Kelly’s Olympian",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Leaky Roof Gastropub",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Renner’s Grill",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Rialto Poolroom",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "The Ship Tavern",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Virginia Cafe",
+    "neighborhood": "Southwest"
+  },
+  {
+    "name": "Yamhill Pub",
+    "neighborhood": "Southwest"
+  },
+  ];
+
+function emitAction(name, type, labels) {
+
+  console.log(`action - ${name} - ${type} - ${JSON.stringify(labels)}`);
+
+  const span = apm.startSpan(name, type);
+  span.addLabels(labels);
+  setTimeout(() => {
+    span.end()
+  }, 1)
+  return true;
+}
+
+function $(selector) {
+	return document.querySelector(selector)
+}
+
+function wait(t) {
+	return new Promise((r) => {
+  	setTimeout(r, t);
+  })
+}
+
+function ease(i, max) {
+	const x = i / max;
+	return 1 - Math.sqrt(1 - Math.pow(x, 2));
+}
+
+function spin(city, bars, i, max) {
+
+  return wait(Math.floor(1000 * ease(i,max))).then(() => {
+    const { name, neighborhood } = bars[ i % bars.length ];
+    const href = encodeURI(`https://www.google.com/maps/dir/?api=1&travelmode=bicycling&destination=${name} ${city}`);
+
+    $('#slot').innerHTML = `
+      <h2>
+        <a href='${href}' target='_blank' name="navigate" onclick="emitAction('navigate', 'click', {  city:'pdx', 'neighborhood': '${neighborhood}', 'bar': '${name}' })">${name} (${neighborhood})</a>
+      </h2>
+    `;
+    if (++i > max) {
+      emitAction('spin-end', 'spin', {
+        city: 'pdx',
+        bar: name,
+        neighborhood: name,
+      }); 
+      return true;
+    } else {
+      return spin(city, bars, i, max);
+    }
+  })
+}
+
+$('button').onclick = () => {
+  $('body').classList.add('spinning');
+  wait(0).then(() => {
+    const bars = allBars.filter(x => {
+    	return $('#cb'+x.neighborhood).checked
+    });
+
+    emitAction('spin-start', 'spin', {
+      city: 'pdx',
+      neighborhoods: Array.from(new Set(bars.map(x => x.neighborhood))).join(','),
+      bars: bars.map(x => (x.name)).join(',')
+    });
+
+    const start = Math.floor(Math.random() * bars.length);
+    const max = start + Math.floor(Math.random() * bars.length * 2);
+
+    if (bars.length === 0) {
+    	alert('You must select at least one neighborhood');
+      return;
+    }
+  	return spin('Portland OR', bars, start, max);
+  }).then( () => {
+    $('body').classList.remove('spinning');
+  });
+};
+</script>
+</body>
+</html>
