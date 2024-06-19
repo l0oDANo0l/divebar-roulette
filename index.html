@@ -2,13 +2,7 @@
   <head>
     <title>Portland Dive Bar Roulette</title>
     <link rel="icon" href="./favico.svg" type="image/svg+xml">
-    <script src="/elastic-apm-rum.umd.min.js" crossorigin></script>
-    <script>
-      window.apm = elasticApm.init({
-        serviceName: 'pdx-dive-bar-roulette',
-        serverUrl: 'https://58cdf3b28d6b425a85caf41ae2305ba4.apm.us-central1.gcp.cloud.es.io:443',
-      })
-    </script>
+    <script defer src="https://cloud.umami.is/script.js" data-website-id="b4edfd09-7dae-4aa6-b20c-1decbb472bd1"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
@@ -257,15 +251,9 @@ const allBars = [{
   },
   ];
 
-function emitAction(name, type, labels) {
-
-  console.log(`action - ${name} - ${type} - ${JSON.stringify(labels)}`);
-
-  const span = apm.startSpan(name, type);
-  span.addLabels(labels);
-  setTimeout(() => {
-    span.end()
-  }, 1)
+function emitNavigateAction(labels) {
+  console.log(`${name} - ${JSON.stringify(labels)}`);
+  umami.track('go-to-bar', labels);
   return true;
 }
 
@@ -292,15 +280,16 @@ function spin(city, bars, i, max) {
 
     $('#slot').innerHTML = `
       <h2>
-        <a href='${href}' target='_blank' name="navigate" onclick="emitAction('navigate', 'click', {  city:'pdx', 'neighborhood': '${neighborhood}', 'bar': '${name}' })">${name} (${neighborhood})</a>
+        <a href='${href}' target='_blank' name="navigate" onclick="emitNavigateAction({ city:'pdx', 'neighborhood': '${neighborhood}', 'bar': '${name}' })">${name} (${neighborhood})</a>
       </h2>
     `;
     if (++i > max) {
-      emitAction('spin-end', 'spin', {
+      umami.track(`wheel-stopped`, {
         city: 'pdx',
         bar: name,
-        neighborhood: name,
-      }); 
+        neighborhood
+      })
+      
       return true;
     } else {
       return spin(city, bars, i, max);
@@ -315,12 +304,11 @@ $('button').onclick = () => {
     	return $('#cb'+x.neighborhood).checked
     });
 
-    emitAction('spin-start', 'spin', {
+    umami.track('spin-wheel', {
       city: 'pdx',
       neighborhoods: Array.from(new Set(bars.map(x => x.neighborhood))).join(','),
-      bars: bars.map(x => (x.name)).join(',')
-    });
-
+    })
+    
     const start = Math.floor(Math.random() * bars.length);
     const max = start + Math.floor(Math.random() * bars.length * 2);
 
