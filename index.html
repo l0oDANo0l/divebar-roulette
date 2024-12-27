@@ -143,7 +143,11 @@ const allBars = [{
   {
     "name": "Low Brow Lounge",
     "neighborhood": "Northwest"
-  },	 
+  },
+  {
+    "name": "Jerry's Tavern",
+    "neighborhood": "Northwest"
+  },
   {
     "name": "The Checkered Flag Tavern",
     "neighborhood": "Southeast"
@@ -202,6 +206,14 @@ const allBars = [{
   },
   {
     "name": "Yukon Tavern",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Lay Low",
+    "neighborhood": "Southeast"
+  },
+  {
+    "name": "Firkin Tavern",
     "neighborhood": "Southeast"
   },
   {
@@ -305,7 +317,7 @@ $('button').onclick = () => {
     })
     
     const start = Math.floor(Math.random() * bars.length);
-    const max = start + Math.floor(Math.random() * bars.length * 2);
+    const max = start + 10 + Math.floor(Math.random() * bars.length * 2);
 
     if (bars.length === 0) {
     	alert('You must select at least one neighborhood');
